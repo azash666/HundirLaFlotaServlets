@@ -31,11 +31,8 @@ public class SalirPartidaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		
-		session.removeAttribute("fila");
-		session.removeAttribute("columna");
-		session.removeAttribute("nueva");
-		session.removeAttribute("Partida");
-
+		//Aqui hay un error. No se pone la partida a null.
+		session.setAttribute("Partida", null);
 		
 		RequestDispatcher vista = request.getRequestDispatcher("index");
 		vista.forward(request, response);

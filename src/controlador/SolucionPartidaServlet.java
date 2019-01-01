@@ -24,17 +24,16 @@ public class SolucionPartidaServlet extends HttpServlet {
      */
     public SolucionPartidaServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(true);
 		Partida partida = (Partida)session.getAttribute("Partida");
-		session.removeAttribute("Partida");
+		session.removeAttribute("Partida");		//De esta forma nos aseguramos de que no se hagan trampas mirando los barcos
+												// y jugando en una pestaña diferente, pues se creará una nueva partida
 		
 
 		request.setAttribute("Partida", partida);

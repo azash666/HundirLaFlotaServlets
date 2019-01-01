@@ -31,21 +31,21 @@ public class HundirFlotaServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		HttpSession session = request.getSession(true);
+		
+		HttpSession session = request.getSession(true);			//true --> Si la sesion no existe, se crea una nueva
 		Partida partida = (Partida)session.getAttribute("Partida");
 		int fila, columna;
+		System.out.println(partida);
 		
-		if(null == partida) {
+		if(partida==null) {
 			partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
-			request.setAttribute("nueva", true);
+			request.setAttribute("nueva", true);			//el atrubuto nueva sirve para saber si la partida es nueva.
 		}else {
-			String[] casilla = request.getParameter("tablero").split("#");
+			String[] casilla = request.getParameter("tablero").split("#");	//Recibe la casilla como un string "fila#columna"
 			fila = Integer.parseInt(casilla[0]);
 			columna = Integer.parseInt(casilla[1]);
 			
-			int devolver = partida.pruebaCasilla(fila, columna);
+			partida.pruebaCasilla(fila, columna);
 
 			request.setAttribute("nueva", false);
 			request.setAttribute("fila", fila);
@@ -54,7 +54,7 @@ public class HundirFlotaServlet extends HttpServlet {
 		session.setAttribute("Partida", partida);
 
 		request.setAttribute("Partida", partida);
-		request.setAttribute("filas", NUMFILAS);
+		request.setAttribute("filas", NUMFILAS);		//Esto es necesario pasarlo para saber cuantas filas y columnas se han de dibujar
 		request.setAttribute("columnas", NUMCOLUMNAS);
 		request.setAttribute("barcos", NUMBARCOS);
 

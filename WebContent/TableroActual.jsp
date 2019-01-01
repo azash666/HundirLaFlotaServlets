@@ -52,18 +52,10 @@
 			String texto = "";
 			
 			if(f>=0){
+				
 				texto = "Página de resultados del disparo en ("+f+", "+c+"):";
-				switch (partida.getCasilla(f, c)){
-				case -1:
-					texto+=" Agua!";
-					break;
-				case -2:
-					texto+=" Tocado!";
-					break;
-				case -3:
-					texto+=" Hundido!";
-				}
-				if(partida.getCasilla(f, c)>=0) texto+=": Ok!";
+				
+				if(partida.getCasilla(f, c)>=-3) texto+=": Ok!";
 			}else
 				if(f==-1){
 					texto = "NUEVA PARTIDA";
@@ -75,25 +67,27 @@
 			out.print("</div>");
 			out.print("<form action=\"HundirFlotaServlet\" method=\"GET\">");
 			out.print("<table>");
+			//La construcción de la tabla se hace así porque de esta forma más adelante podemos añadir un número diferente de filas y columnas.
 			for(int fila = 0; fila<NUMFILAS+1; fila++){
 				out.print("<tr>");
 				for(int col = 0; col<NUMCOLUMNAS+2; col++){
 					out.print("<td width=\"60 px\" class=\""+
 							(
-									col>0 && col<NUMCOLUMNAS+1 && fila>0 && partida.casillaDisparada(fila-1, col-1)
+									//Aquí hastamos tres if ternarios anidados. De esta forma cambiamos las class del mar para que se muestren los colores de una forma automática
+								col>0 && col<NUMCOLUMNAS+1 && fila>0 && partida.casillaDisparada(fila-1, col-1)
+								? 
+									partida.getCasilla(fila-1, col-1)==-1
 									? 
-										partida.getCasilla(fila-1, col-1)==-1
-										? 
-											"Agua"
-										:
-											partida.estaHundido(partida.getCasilla(fila-1, col-1))
-											?
-												"Hundido"
-											:
-												"Tocado"
+										"Agua"
 									:
-										" "
-								)
+										partida.estaHundido(partida.getCasilla(fila-1, col-1))
+										?
+											"Hundido"
+										:
+											"Tocado"
+								:
+									" "
+							)
 							+"\">");
 					if(fila == 0){
 						if (col == 0 || col == NUMCOLUMNAS +1){

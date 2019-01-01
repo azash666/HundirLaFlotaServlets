@@ -48,10 +48,15 @@
 			out.print("<br/>Número de disparos efectuados: "+partida.getNumDisparos());
 			out.print("</div>");
 			out.print("<table>");
+			//La construcción de la tabla se hace así porque de esta forma más adelante podemos añadir un número diferente de filas y columnas.
 			for(int fila = 0; fila<NUMFILAS+1; fila++){
 				out.print("<tr>");
 				for(int col = 0; col<NUMCOLUMNAS+2; col++){
 					out.print("<td width=\"60 px\" class=\""+
+								//Añadiendo la clase hacemos que se pinte el tablero dependiendo de si hay barco o no.
+								
+								//Con el if ternario de fuera elegimos si nos encontramos o no en el tablero
+								//Con el if ternario de dentro elegimos si es agua o barco
 							(col>0 && col<NUMCOLUMNAS+1 && fila>0 ? (partida.getCasilla(fila-1, col-1)==-1) ? "Agua" : "Barco":" ")
 							+"\">");
 					if(fila == 0){
@@ -64,7 +69,7 @@
 						if (col == 0 || col == NUMCOLUMNAS +1){
 							out.print(fila);
 						}else{
-							// En caso de que se haya disparado no queremos que haya la opción de volver a disparar sobre la misma casilla. Para ello la marcamos como readonly.
+							
 							out.print(" ");
 						}
 					}
